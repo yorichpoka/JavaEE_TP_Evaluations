@@ -27,7 +27,7 @@ public class BaseController extends HttpServlet {
     protected IChildrenUserServices teacherEJB;
     
     @EJB(beanName = "Student_AnswerEJB")
-    protected IServices student_AnswerEJB;
+    protected IStudent_AnswerServices student_AnswerEJB;
     
     @EJB(beanName = "StudentEJB")
     protected IChildrenUserServices studentEJB;
@@ -100,6 +100,11 @@ public class BaseController extends HttpServlet {
                                 ((Evaluation)data).getCode(), 
                                 ((Evaluation)data).getTitle(),
                                 ((Evaluation)data).getDuration() + " min",
+                                Tools.htmlBoutonDisplayList(
+                                    ((Evaluation)data).getId(), 
+                                    ((Evaluation)data).getQuestions().size(),
+                                    "question(s)"
+                                ),
                                 Tools.htmlBoutonActionTable(((Evaluation)data).getId())
                             )
                         );
@@ -118,11 +123,37 @@ public class BaseController extends HttpServlet {
                                 ((Question)data).getTitle(),
                                 ((Question)data).getMarks() + "",
                                 ((Question)data).getEvaluation().getTitle(),
+                                Tools.htmlBoutonDisplayList(
+                                    ((Question)data).getId(), 
+                                    ((Question)data).getAnswers().size(),
+                                    "answer(s)"
+                                ),
                                 Tools.htmlBoutonActionTable(((Question)data).getId())
                             )
                         );
                     }
                     this.notification = new Notification(obj);
+                    break;
+                case "QuestionByEvaluation":  
+                    int id_evaluation = Integer.parseInt(request.getParameter("id_evaluation"));
+                    for(Object data : questionEJB.readAllByEvaluation(id_evaluation))
+                    {
+                        obj.add(
+                            new DataTableRow(
+                                ((Question)data).getId() + "", 
+                                (++index) + "",
+                                ((Question)data).getCode(), 
+                                ((Question)data).getTitle(),
+                                ((Question)data).getMarks() + "",
+                                (index == 1) ? ((Question)data).getEvaluation().getTitle() 
+                                             : null
+                            )
+                        );
+                    }
+                    if (obj.size() == 0) {
+                        throw new Exception("Empty!");
+                    }                    
+                    this.notification =  new Notification(obj);
                     break;
                 case "Answer":  
                     for(Object data : answerEJB.readAll())
@@ -141,6 +172,28 @@ public class BaseController extends HttpServlet {
                             )
                         );
                     }
+                    this.notification = new Notification(obj);
+                    break;
+                case "AnswerByQuestion":  
+                    int id_question = Integer.parseInt(request.getParameter("id_question"));
+                    for(Object data : answerEJB.readAllByQuestion(id_question))
+                    {
+                        obj.add(
+                            new DataTableRow(
+                                ((Answer)data).getId() + "", 
+                                (++index) + "",
+                                ((Answer)data).getCode(), 
+                                ((Answer)data).getTitle(),
+                                ((Answer)data).isTruth() ? "<i class=\"fa fa-check\"></i> Correct"
+                                                         : "<i class=\"fa fa-remove\"></i> Incorrect",
+                                (index == 1) ? ((Answer)data).getQuestion().getTitle() 
+                                             : null
+                            )
+                        );
+                    }
+                    if (obj.size() == 0) {
+                        throw new Exception("Empty!");
+                    }  
                     this.notification = new Notification(obj);
                     break;
                 case "User":  
@@ -225,7 +278,7 @@ public class BaseController extends HttpServlet {
         } 
         catch(Exception ex) {
             log4j.error(ex);
-            this.notification = new Notification(false);
+            this.notification = new Notification(false, ex.getMessage());
         }
         finally{
             sendNotificationToResponse(response);

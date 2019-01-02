@@ -60,6 +60,7 @@
                                         <th>Code</th>
                                         <th>Title</th>
                                         <th width="150px;">Duration</th>
+                                        <th width="150px;">Questions</th>
                                         <th width="150px;">Action</th>
                                     </tr>
                                 </thead>
@@ -104,10 +105,10 @@
                         // -- Tester si le traitement s'est bien effectué -- //
                         if (result.isSuccess) {
                             // -- Update modal form -- //
-                            $('#form_id').val(result.data.id);
-                            $('#form_code').val(result.data.code);
-                            $('#form_title').val(result.data.title);
-                            $('#form_duration').val(result.data.duration);
+                            $('#form_id').val(result.data.col_0);
+                            $('#form_code').val(result.data.col_1);
+                            $('#form_title').val(result.data.col_2);
+                            $('#form_duration').val(parseInt(result.data.col_3));
 
                             // -- Set title -- //
                             $('#modal_form_titre').html('<i class="fa fa-plus"></i> Update data');
@@ -176,6 +177,64 @@
                 });
 
             }
+            
+            // -- Display questions of evaluation selected -- //
+            function displayList(id) {
+                console.log(id);
+                // -- Afficher le chargement -- //
+                displayLoadingPage(true);
+
+                // -- Ajax -- //
+                $.ajax({
+                    type: "POST",
+                    url: 'Base',
+                    data: {
+                        "id_evaluation": id,
+                        "action": 'dataTablesValue',
+                        "module": 'QuestionByEvaluation'
+                    },
+                    success: function(result) {
+                        // -- Tester si le traitement s'est bien effectué -- //
+                        if (result.isSuccess) {
+                            // -- Destroy -- //
+                            $('#table-donnee-display').DataTable().destroy();
+                            // -- Reload table -- //
+                            $('#table-donnee-display').DataTable({
+                                "scrollCollapse": true,
+                                "paging": true,
+                                "searching": true,
+                                "autoWidth": false,
+                                "responsive": true,
+                                columns: [
+                                    {"data": "col_1", "class": "text-center"},
+                                    {"data": "col_2"},
+                                    {"data": "col_3"},
+                                    {"data": "col_4"},
+                                ],
+                                data: result.data
+                            });
+                            // -- Set title -- //
+                            $('#title_obj').html('<i class="fa fa-square"></i> ' + result.data[0].col_5);
+                            // -- Show modal -- //
+                            $('#modal_form_display').modal('show');
+                            
+                            new $.fn.dataTable.FixedHeader($('#table-donnee-display'));
+                        } else {
+                            // -- Message -- //
+                            messageBox(result);
+                        }
+                        // -- Afficher le chargement -- //
+                        displayLoadingPage();
+                    },
+                    error: function() {
+                        // -- Afficher le chargement -- //
+                        displayLoadingPage();
+                        // -- Notifier -- //
+                        messageBox();
+                    }
+                });
+                
+            }
 
             // -- Lorsque le document est chargé -- //
             $(
@@ -212,7 +271,8 @@
                                 {"data": "col_3"},
                                 {"data": "col_4"},
                                 {"data": "col_5"},
-                                {"data": "col_6", "class": "text-center"},
+                                {"data": "col_6"},
+                                {"data": "col_7", "class": "text-center"},
                             ]
                         });
 

@@ -93,7 +93,7 @@
     <!-- session-config -->
     <session-config>
         <session-timeout>
-            1
+            6
         </session-timeout>
     </session-config>
     <welcome-file-list>

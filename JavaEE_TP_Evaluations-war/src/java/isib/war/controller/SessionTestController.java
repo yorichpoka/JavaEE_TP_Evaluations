@@ -1,11 +1,15 @@
 package isib.war.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import isib.ejb.entity.Answer;
 import isib.ejb.entity.Evaluation;
 import isib.ejb.entity.Question;
 import isib.war.bo.Notification;
 import isib.war.tools.Tools;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -83,8 +87,10 @@ public class SessionTestController extends BaseController {
         try {
             String answers = request.getParameter("answers");
             int id_evaluation = Integer.parseInt(request.getParameter("id_evaluation"));
+//            List<Question_AnswerBO> question_answers =    new Gson().fromJson(answers, 
+//                                                            new TypeToken<ArrayList<Question_AnswerBO>>(){}.getType()
+//                                                        );
             
-            log4j.info("answers: " + answers + ", id_evaluation: " + id_evaluation);
             
             this.notification = new Notification("SessionTest?status=finished");
         } 

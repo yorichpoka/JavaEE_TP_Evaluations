@@ -61,6 +61,7 @@
                                         <th>Title</th>
                                         <th width="100px;">Marks</th>
                                         <th>Evaluation</th>
+                                        <th width="150px;">Answers</th>
                                         <th width="150px;">Action</th>
                                     </tr>
                                 </thead>
@@ -105,11 +106,11 @@
                         // -- Tester si le traitement s'est bien effectué -- //
                         if (result.isSuccess) {
                             // -- Update modal form -- //
-                            $('#form_id').val(result.data.id);
-                            $('#form_code').val(result.data.code);
-                            $('#form_title').val(result.data.title);
-                            $('#form_marks').val(result.data.marks);
-                            $('#form_id_evaluation').val(result.data.evaluation.id);
+                            $('#form_id').val(result.data.col_0);
+                            $('#form_code').val(result.data.col_1);
+                            $('#form_title').val(result.data.col_2);
+                            $('#form_marks').val(parseInt(result.data.col_3));
+                            $('#form_id_evaluation').val(parseInt(result.data.col_4));
                             
                             // -- Set title -- //
                             $('#modal_form_titre').html('<i class="fa fa-plus"></i> Update data');
@@ -178,6 +179,64 @@
                 });
 
             }
+            
+            // -- Display questions of evaluation selected -- //
+            function displayList(id) {
+                console.log(id);
+                // -- Afficher le chargement -- //
+                displayLoadingPage(true);
+
+                // -- Ajax -- //
+                $.ajax({
+                    type: "POST",
+                    url: 'Base',
+                    data: {
+                        "id_question": id,
+                        "action": 'dataTablesValue',
+                        "module": 'AnswerByQuestion'
+                    },
+                    success: function(result) {
+                        // -- Tester si le traitement s'est bien effectué -- //
+                        if (result.isSuccess) {
+                            // -- Destroy -- //
+                            $('#table-donnee-display').DataTable().destroy();
+                            // -- Reload table -- //
+                            $('#table-donnee-display').DataTable({
+                                "scrollCollapse": true,
+                                "paging": true,
+                                "searching": true,
+                                "autoWidth": false,
+                                "responsive": true,
+                                columns: [
+                                    {"data": "col_1", "class": "text-center"},
+                                    {"data": "col_2"},
+                                    {"data": "col_3"},
+                                    {"data": "col_4"},
+                                ],
+                                data: result.data
+                            });
+                            // -- Set title -- //
+                            $('#title_obj').html('<i class="fa fa-square"></i> ' + result.data[0].col_5);
+                            // -- Show modal -- //
+                            $('#modal_form_display').modal('show');
+                            
+                            new $.fn.dataTable.FixedHeader($('#table-donnee-display'));
+                        } else {
+                            // -- Message -- //
+                            messageBox(result);
+                        }
+                        // -- Afficher le chargement -- //
+                        displayLoadingPage();
+                    },
+                    error: function() {
+                        // -- Afficher le chargement -- //
+                        displayLoadingPage();
+                        // -- Notifier -- //
+                        messageBox();
+                    }
+                });
+                
+            }
 
             // -- Lorsque le document est chargé -- //
             $(
@@ -215,7 +274,8 @@
                                 {"data": "col_4"},
                                 {"data": "col_5"},
                                 {"data": "col_6"},
-                                {"data": "col_7", "class": "text-center"},
+                                {"data": "col_7"},
+                                {"data": "col_8", "class": "text-center"},
                             ]
                         });
 

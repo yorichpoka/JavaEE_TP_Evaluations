@@ -24,6 +24,6 @@ public interface IAnswerServices {
     boolean delete(int id);
     Answer read(int id);
     List<Answer> readAll();
-    List<Answer> readAllByEvaluation(int id_evaluation);
+    List<Answer> readAllByQuestion(int id_question);
     
 }

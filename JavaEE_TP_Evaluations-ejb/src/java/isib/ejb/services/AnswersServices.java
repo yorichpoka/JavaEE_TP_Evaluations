@@ -55,7 +55,7 @@ public class AnswersServices implements IAnswerServices {
     }
 
     @Override
-    public List<Answer> readAllByEvaluation(int id_evaluation) {
-        return dao().getAllByQuestion(id_evaluation);
+    public List<Answer> readAllByQuestion(int id_question) {
+        return dao().getAllByQuestion(id_question);
     }
 }

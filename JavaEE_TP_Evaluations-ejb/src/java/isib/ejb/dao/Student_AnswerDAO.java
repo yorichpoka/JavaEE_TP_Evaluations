@@ -48,6 +48,36 @@ public class Student_AnswerDAO implements IDAO<Student_Answer> {
         
         return obj;
     }
+    
+    public boolean create(Student_Answer[] obj) {
+        boolean state = false;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            
+            transaction = session.beginTransaction();
+            
+            for(Student_Answer val : obj){
+                if (get(val.getStudent().getId(), val.getAnswer().getId()) == null){
+                    throw new Exception("Answer already gived");
+                }
+                session.save(val);
+            }
+            
+            transaction.commit();
+            state = true;
+        } 
+        catch(Exception ex) 
+        {
+            transaction.rollback();
+            log4j.error(ex);
+            obj = null;
+        }
+        finally {
+            session.close();
+        }
+        
+        return state;
+    }
 
     @Override
     public Student_Answer update(Student_Answer obj) {
@@ -108,6 +138,54 @@ public class Student_AnswerDAO implements IDAO<Student_Answer> {
             transaction = session.beginTransaction();
             
             results = (Student_Answer)session.createQuery("from " + tableName + " where id = " + id).list().get(0);
+            
+            transaction.commit();
+        } 
+        catch(Exception ex) 
+        {
+            transaction.rollback();
+            log4j.error(ex);
+        }
+        finally {
+            session.close();
+        }
+        
+        return results;
+    }
+    
+    public Student_Answer get(int id_student, int id_answer) {
+       Student_Answer results = null;
+       
+       try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            
+            transaction = session.beginTransaction();
+            
+            results = (Student_Answer)session.createQuery("from " + tableName + " where id_student = " + id_student + " and id_answer = " + id_answer).list().get(0);
+            
+            transaction.commit();
+        } 
+        catch(Exception ex) 
+        {
+            transaction.rollback();
+            log4j.error(ex);
+        }
+        finally {
+            session.close();
+        }
+        
+        return results;
+    }
+    
+    public Student_Answer getByAnswer(int id_answer) {
+       Student_Answer results = null;
+       
+       try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            
+            transaction = session.beginTransaction();
+            
+            results = (Student_Answer)session.createQuery("from " + tableName + " where id_answer = " + id_answer).list().get(0);
             
             transaction.commit();
         } 
