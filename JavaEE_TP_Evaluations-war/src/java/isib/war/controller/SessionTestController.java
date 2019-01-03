@@ -2,14 +2,13 @@ package isib.war.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import isib.ejb.entity.Answer;
 import isib.ejb.entity.Evaluation;
-import isib.ejb.entity.Question;
+import isib.ejb.entity.Student_Answer;
 import isib.war.bo.Notification;
 import isib.war.tools.Tools;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +31,7 @@ public class SessionTestController extends BaseController {
             this.con = Tools.getConnexionSession(request);
             this.con.setModule_activate("SessionTest");
 
-            request.setAttribute("comboBoxData", loadComboBoxData());
+            request.setAttribute("comboBoxData", loadComboBoxData(this.con.getPerson().getId()));
 
             Tools.redirectToPage(request, response, "views/sessionTest/index.jsp");
         } 
@@ -64,14 +63,16 @@ public class SessionTestController extends BaseController {
                     throw new Exception("Questions not found!");
                 }
                 
+                this.con = Tools.getConnexionSession(request);
+                
                 request.setAttribute("evaluation", evaluation);
-                request.setAttribute("comboBoxData", loadComboBoxData());
                 
                 Tools.redirectToPage(request, response, "views/sessionTest/testProcess.jsp");
             }
         } catch (Exception ex) {
             log4j.error(ex);
             request.setAttribute("error", ex.getMessage());
+            request.setAttribute("comboBoxData", loadComboBoxData(this.con.getPerson().getId()));
             Tools.redirectToPage(request, response, "views/sessionTest/index.jsp");
         }
 
@@ -82,15 +83,31 @@ public class SessionTestController extends BaseController {
     
     private void getAnswers(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
-        Object obj;
+        Student_Answer[] obj;
         
         try {
-            String answers = request.getParameter("answers");
-            int id_evaluation = Integer.parseInt(request.getParameter("id_evaluation"));
+            this.con = Tools.getConnexionSession(request);
+            String id_answers_json = request.getParameter("id_answers");
+            int[] id_answers =    new Gson().fromJson(id_answers_json, new TypeToken<int[]>(){}.getType());
+//            int id_evaluation = Integer.parseInt(request.getParameter("id_evaluation"));
 //            List<Question_AnswerBO> question_answers =    new Gson().fromJson(answers, 
 //                                                            new TypeToken<ArrayList<Question_AnswerBO>>(){}.getType()
 //                                                        );
+
+            obj = new Student_Answer[id_answers.length];
             
+            int index = 0;
+            for(int id_answer : id_answers){
+                obj[index++] = new Student_Answer(
+                                    new Date(),
+                                    this.con.getPerson().getId(), 
+                                    id_answer
+                                );
+            }
+            
+            if(!student_AnswerEJB.create(obj)){
+                throw new Exception("An error during process!");
+            }
             
             this.notification = new Notification("SessionTest?status=finished");
         } 
@@ -104,11 +121,20 @@ public class SessionTestController extends BaseController {
         
     }
 
-    private Object[] loadComboBoxData() {
+    private Object[] loadComboBoxData(int id_person_connected) {
 
         Object[] comboBoxData = new Object[1];
 
-        comboBoxData[0] = evaluationEJB.readAll();
+        comboBoxData[0] = new ArrayList<>();
+        
+        for(Object val : evaluationEJB.readAll())
+        {
+            if (student_AnswerEJB.getAnswers(id_person_connected, ((Evaluation)val).getId()).size() != 0) {
+                continue;
+            }
+            
+            ((ArrayList<Object>)comboBoxData[0]).add(val);
+        }
 
         return comboBoxData;
 

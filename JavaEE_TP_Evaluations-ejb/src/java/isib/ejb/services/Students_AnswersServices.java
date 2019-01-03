@@ -6,9 +6,8 @@
 
 package isib.ejb.services;
 
-import isib.ejb.services.interfaces.IServices;
 import isib.ejb.dao.Student_AnswerDAO;
-import isib.ejb.dao.IDAO;
+import isib.ejb.entity.Answer;
 import isib.ejb.entity.Student_Answer;
 import isib.ejb.services.interfaces.IStudent_AnswerServices;
 import java.util.List;
@@ -69,5 +68,10 @@ public class Students_AnswersServices implements IStudent_AnswerServices {
     @Override
     public boolean create(Student_Answer[] obj) {
         return dao().create(obj);
+    }
+
+    @Override
+    public List<Student_Answer> getAnswers(int id_student, int id_evaluation) {
+        return dao().getAnswers(id_student, id_evaluation);
     }
 }

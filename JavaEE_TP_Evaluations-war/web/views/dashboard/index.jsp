@@ -40,7 +40,7 @@
                                         Select a student and display his transcript.
                                     </p>
                                     <hr class="my-4">
-                                    <form method="post" id="form_student" name="form_student" data-parsley-validate>
+                                    <form method="post" id="form_student" action="Dashboard" name="form_student" data-parsley-validate>
                                         <div class="row">
                                             <div class="col-12 col-md-4">
                                                 <div class="form-group">
@@ -52,7 +52,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button class="btn btn-success btn-lg" type="button" onclick="messageBox();">
+                                                    <button class="btn btn-success btn-lg" type="submit">
                                                         <i class="fa fa-list"></i> Display
                                                     </button>
                                                 </div>
@@ -62,6 +62,26 @@
                                 </div>
                             </div>
                         </div>
+
+                        <c:if test="${requestScope.answers != null}">
+                            <div class="col-12">
+
+                                <div class="card bg-white mt-3">
+                                    <div class="card-body ">
+                                        <h2 class="display-5">
+                                            <i class="fa fa-user"></i> KEMING Loic <span class="float-right font-weight-bold text-info">5/10</span>
+                                        </h2>
+                                        <hr class="my-4">
+                                        <div class="form-group">
+                                            <button class="btn btn-light btn-lg" type="button" onclick="messageBox();">
+                                                <i class="fa fa-print"></i> Print
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </c:if>
 
                     </div>
 
@@ -79,11 +99,13 @@
 
             // -- Lorsque le document est chargé -- //
             $(
-                    function () {
+                function () {
 
-
-
+                    if ('${requestScope.error ne null}'.toLowerCase() === 'true') {
+                        messageBox({isSuccess: false, message: '${requestScope.error}'});
                     }
+
+                }
             );
 
         </script>

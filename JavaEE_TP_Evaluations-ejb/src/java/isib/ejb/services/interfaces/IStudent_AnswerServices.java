@@ -8,6 +8,7 @@ package isib.ejb.services.interfaces;
 
 import isib.ejb.dao.IDAO;
 import isib.ejb.dao.Student_AnswerDAO;
+import isib.ejb.entity.Answer;
 import isib.ejb.entity.Student_Answer;
 import java.util.List;
 import javax.ws.rs.*;
@@ -25,6 +26,7 @@ public interface IStudent_AnswerServices {
     Student_Answer createWithRelation(Student_Answer obj);
     Student_Answer update(Student_Answer obj);
     boolean delete(int id);
+    List<Student_Answer> getAnswers(int id_student, int id_evaluation);
     Student_Answer read(int id);
     Student_Answer read(int id_student, int id_answer);
     Student_Answer readByAnswer(int id_answer);

@@ -6,10 +6,12 @@
 
 package isib.ejb.dao;
 
+import isib.ejb.entity.Answer;
 import isib.ejb.entity.Student_Answer;
 import java.util.List;
 import isib.ejb.tools.HibernateUtil;
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -52,14 +54,17 @@ public class Student_AnswerDAO implements IDAO<Student_Answer> {
     public boolean create(Student_Answer[] obj) {
         boolean state = false;
         try {
+            for(Student_Answer val : obj){
+                if (get(val.getStudent().getId(), val.getAnswer().getId()) != null){
+                    throw new Exception("Answer already gived");
+                }
+            }
+            
             session = HibernateUtil.getSessionFactory().openSession();
             
             transaction = session.beginTransaction();
             
             for(Student_Answer val : obj){
-                if (get(val.getStudent().getId(), val.getAnswer().getId()) == null){
-                    throw new Exception("Answer already gived");
-                }
                 session.save(val);
             }
             
@@ -190,6 +195,39 @@ public class Student_AnswerDAO implements IDAO<Student_Answer> {
             transaction.commit();
         } 
         catch(Exception ex) 
+        {
+            transaction.rollback();
+            log4j.error(ex);
+        }
+        finally {
+            session.close();
+        }
+        
+        return results;
+    }
+    
+    public List<Student_Answer> getAnswers(int id_student, int id_evaluation) {
+       List<Student_Answer> results = null;
+       
+       try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            
+            transaction = session.beginTransaction();
+            
+            results = session.createQuery(
+//                      "select tbStudent_Answer " +
+                        "from " + tableName + " tbStudent_Answer " + 
+                            "join fetch tbStudent_Answer.answer tbAnswer " + 
+                            "join fetch tbAnswer.question tbQuestion " + 
+                            "join fetch tbQuestion.evaluation tbEvaluation " + 
+                        "where tbStudent_Answer.student.id = " + id_student + " and tbEvaluation.id = " + id_evaluation
+                    ).list();
+            
+            log4j.info(results);
+            
+            transaction.commit();
+        } 
+        catch(HibernateException ex) 
         {
             transaction.rollback();
             log4j.error(ex);

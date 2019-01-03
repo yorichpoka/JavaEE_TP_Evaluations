@@ -35,6 +35,16 @@ public class DashboardController extends BaseController {
         
         String action = request.getParameter("action");
         
+        this.con = Tools.getConnexionSession(request);
+        
+        request.setAttribute("error", "Not implemented");
+        
+        request.setAttribute("comboBoxData", loadComboBoxData(
+                                                this.con.getPerson().isIsStudent()  ? this.con.getPerson().getId() 
+                                                                                    : 0));
+                
+        Tools.redirectToPage(request, response, "views/dashboard/index.jsp");
+        
 //        if ("getDataById".equals(action)) {
 //            getDataById(request, response);
 //        } else if ("create".equals(action)) {

@@ -272,6 +272,28 @@ public class BaseController extends HttpServlet {
                     }
                     this.notification = new Notification(obj);
                     break;
+                case "Student_Answer":  
+                    for(Object data : student_AnswerEJB.readAll())
+                    {
+                        obj.add(
+                            new DataTableRow(
+                                ((Student_Answer)data).getId() + "", 
+                                Tools.htmlCheckboxTable(((Student_Answer)data).getId(), "student_answer"),
+                                (++index) + "",
+                                ((Student_Answer)data).getStudent().getMatricule(), 
+                                ((Student_Answer)data).getStudent().getFirstname(),
+                                ((Student_Answer)data).getStudent().getLastname(),
+                                ((Student_Answer)data).getAnswer().getQuestion().getEvaluation().getTitle(),
+                                ((Student_Answer)data).getAnswer().getQuestion().getTitle(),
+                                ((Student_Answer)data).getAnswer().getTitle(),
+                                ((Student_Answer)data).getAnswer().getQuestion().getMarks() + "",
+                                ((Student_Answer)data).getAnswer().isTruth() ? "<i class=\"fa fa-check text-success\"></i>" 
+                                                                             : "<i class=\"fa fa-remove text-danger\"></i>"
+                            )
+                        );
+                    }
+                    this.notification = new Notification(obj);
+                    break;
                 default:
                     break;
             }

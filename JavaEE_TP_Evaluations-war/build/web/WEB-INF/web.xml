@@ -45,6 +45,10 @@
         <servlet-name>DashboardController</servlet-name>
         <servlet-class>isib.war.controller.DashboardController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ResultsTestController</servlet-name>
+        <servlet-class>isib.war.controller.ResultsTestController</servlet-class>
+    </servlet>
     <!-- servlet-mapping -->
     <servlet-mapping>
         <servlet-name>BaseController</servlet-name>
@@ -89,6 +93,10 @@
     <servlet-mapping>
         <servlet-name>DashboardController</servlet-name>
         <url-pattern>/Dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResultsTestController</servlet-name>
+        <url-pattern>/ResultsTest</url-pattern>
     </servlet-mapping>
     <!-- session-config -->
     <session-config>

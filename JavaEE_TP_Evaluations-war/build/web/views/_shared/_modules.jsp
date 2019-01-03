@@ -21,6 +21,19 @@
         <c:if test="${!sessionScope.con.person.isIsStudent()}">
             
             <li class="nav-item">
+                <c:if test="${sessionScope.con.module_activate eq 'ResultsTest'}">
+                    <a class="nav-link active" href="Javascript:;" data-app-menu="ResultsTest">
+                        <i class="fa fa-square"></i> Results of tests
+                    </a>
+                </c:if>
+                <c:if test="${sessionScope.con.module_activate ne 'ResultsTest'}">
+                    <a class="nav-link app-menu-link" href="ResultsTest" data-app-menu="ResultsTest">
+                        <i class="fa fa-square"></i> Results of tests
+                    </a>
+                </c:if>
+            </li>
+            
+            <li class="nav-item">
                 <c:if test="${sessionScope.con.module_activate eq 'Evaluation'}">
                     <a class="nav-link active" href="Javascript:;" data-app-menu="Evaluation">
                         <i class="fa fa-square"></i> Evaluations
