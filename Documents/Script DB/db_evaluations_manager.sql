@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 31 Décembre 2018 à 12:13
+-- Généré le :  Dim 06 Janvier 2019 à 12:49
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -51,7 +51,11 @@ INSERT INTO `answers` (`id`, `id_question`, `code`, `title`, `truth`) VALUES
 (11, 8, 'asw10', '= 7', 1),
 (12, 8, 'asw11', '= -1', 0),
 (13, 9, 'asw12', '= 18', 0),
-(14, 9, 'asw13', '= 5', 1);
+(14, 9, 'asw13', '= 5', 1),
+(15, 10, 'asw14', '= aa', 1),
+(16, 10, 'asw15', 'ab', 0),
+(17, 11, 'aws16', 'bb', 1),
+(18, 11, 'asw17', 'ba', 0);
 
 -- --------------------------------------------------------
 
@@ -107,7 +111,9 @@ INSERT INTO `questions` (`id`, `id_evaluation`, `code`, `title`, `marks`) VALUES
 (5, 3, 'qr5', 'Multiplication de 2 & 9', 2),
 (6, 1, 'qr6', 'Modulo 100 & 3', 2),
 (8, 1, 'qr7', 'Mutiplication 1 & 7', 2),
-(9, 1, 'qr8', 'Soustraction 8 & 3', 1);
+(9, 1, 'qr8', 'Soustraction 8 & 3', 1),
+(10, 4, 'qr9', 'a et a', 2),
+(11, 4, 'qr10', 'b & b', 3);
 
 -- --------------------------------------------------------
 
@@ -171,8 +177,17 @@ CREATE TABLE `students_answers` (
 --
 
 INSERT INTO `students_answers` (`id`, `id_student`, `id_answer`, `date`) VALUES
-(1, 1, 2, '2018-11-11 00:00:00'),
-(2, 1, 3, '2018-11-11 00:00:00');
+(12, 2, 2, '2019-01-03 00:06:31'),
+(13, 2, 12, '2019-01-03 00:06:31'),
+(14, 2, 14, '2019-01-03 00:06:31'),
+(15, 2, 10, '2019-01-03 00:06:31'),
+(20, 1, 11, '2019-01-05 16:29:14'),
+(21, 1, 10, '2019-01-05 16:29:14'),
+(22, 1, 2, '2019-01-05 16:29:14'),
+(23, 1, 14, '2019-01-05 16:29:14'),
+(24, 1, 3, '2019-01-05 16:40:33'),
+(25, 1, 17, '2019-01-05 16:44:50'),
+(26, 1, 16, '2019-01-05 16:44:50');
 
 -- --------------------------------------------------------
 
@@ -297,7 +312,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT pour la table `evaluations`
 --
@@ -307,7 +322,7 @@ ALTER TABLE `evaluations`
 -- AUTO_INCREMENT pour la table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT pour la table `students`
 --
@@ -317,7 +332,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT pour la table `students_answers`
 --
 ALTER TABLE `students_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT pour la table `teachers`
 --
