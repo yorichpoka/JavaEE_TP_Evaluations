@@ -166,12 +166,14 @@
                     return false;
                 }
 
-                var data = [];
+                var data = [],
+                    id_answers = [];
                 for(var i = 0; i < question_answer.length; i++) {
                     data.push({
                        id_question:  question_answer[i].split('=')[0].replace('answer_', ''),
                        id_answer: question_answer[i].split('=')[1]
                     });
+                    id_answers.push(question_answer[i].split('=')[1]);
                 }
 
                 console.log(JSON.stringify(data));
@@ -185,8 +187,9 @@
                     url: 'SessionTest',
                     data: {
                         action: 'getAnswers',
-                        answers: JSON.stringify(data),
-                        id_evaluation: '${requestScope.evaluation.id}'
+//                        answers: JSON.stringify(data),
+                        id_answers: JSON.stringify(id_answers)
+//                        id_evaluation: '${requestScope.evaluation.id}'
                     },
                     success: function (result) {
                         if (result.isSuccess) {

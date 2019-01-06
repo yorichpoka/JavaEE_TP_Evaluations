@@ -105,11 +105,11 @@
                         // -- Tester si le traitement s'est bien effectué -- //
                         if (result.isSuccess) {
                             // -- Update modal form -- //
-                            $('#form_id').val(result.data.id);
-                            $('#form_code').val(result.data.code);
-                            $('#form_title').val(result.data.title);
-                            $('#form_truth').val(result.data.truth.toString());
-                            $('#form_id_question').val(result.data.question.id);
+                            $('#form_id').val(result.data.col_0);
+                            $('#form_code').val(result.data.col_1);
+                            $('#form_title').val(result.data.col_2);
+                            $('#form_truth').val(result.data.col_3);
+                            $('#form_id_question').val(result.data.col_4);
                             
                             // -- Set title -- //
                             $('#modal_form_titre').html('<i class="fa fa-plus"></i> Update data');

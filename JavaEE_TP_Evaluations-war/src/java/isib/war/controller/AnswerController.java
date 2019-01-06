@@ -1,6 +1,7 @@
 package isib.war.controller;
 
 import isib.ejb.entity.Answer;
+import isib.war.bo.DataTableRow;
 import isib.war.bo.Notification;
 import isib.war.tools.Tools;
 import java.io.IOException;
@@ -57,7 +58,15 @@ public class AnswerController extends BaseController {
             );
             
             if (obj != null){
-                this.notification = new Notification(obj);
+                this.notification = new Notification(
+                                        new DataTableRow(
+                                            ((Answer)obj).getId() + "",
+                                            ((Answer)obj).getCode(),
+                                            ((Answer)obj).getTitle(),
+                                            ((Answer)obj).isTruth() + "",
+                                            ((Answer)obj).getQuestion().getId() + ""
+                                        )
+                                    );
             } else {
                 throw new Exception("Data not found");
             }

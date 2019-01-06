@@ -9,17 +9,23 @@ import isib.ejb.entity.Student;
 import isib.ejb.entity.Teacher;
 import isib.war.bo.Connexion;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author POKA
  */
 public final class Tools {
+
+    private static final Logger log4j = Logger.getLogger(Tools.class);
 
     public static String htmlBoutonActionTable(int id) {
         return "<div class=\"btn-group btn-group-sm\" role=\"group\">"
@@ -109,11 +115,24 @@ public final class Tools {
 
     }
 
-//    public static String htmlBoutonPerson(int id, Object person, boolean isStudent) {
-//        return 
-//            "<button id=\"btn_action_" + id + "\" type=\"button\" class=\"btn btn-sm btn-block btn-default\" onClick=\"displayUser('" + id + "')\">" +
-//                ((isStudent) ? "(<b>S</b>) " + ((Student)person).getFirstname() + " " + ((Student)person).getLastname()
-//                             : "(<b>T</b>) " + ((Teacher)person).getFirstname() + " " + ((Teacher)person).getLastname()) +
-//            "</button>";
-//    }
+    public static String htmlBoutonDisplayList(int id, int length, String nameObjet) {
+        
+        return 
+            "<button id=\"btn_displayList_" + id + "\" type=\"button\" class=\"btn btn-sm btn-block btn-default\" onClick=\"displayList(" + id + ")\">" +
+                length + " " + nameObjet +
+            "</button>";
+        
+    }
+    
+    public static int getAge(Date birthday){
+        
+        return 
+            Period.between(
+                birthday.toInstant().atZone(
+                    ZoneId.systemDefault()
+                ).toLocalDate(), 
+                LocalDate.now()
+            ).getYears();
+            
+    }
 }

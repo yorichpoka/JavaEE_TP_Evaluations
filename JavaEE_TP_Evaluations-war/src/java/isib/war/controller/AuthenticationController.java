@@ -20,7 +20,7 @@ public class AuthenticationController extends BaseController {
         
         this.con = Tools.getConnexionSession(request);
         this.con.setModule_activate(null);
-
+        
         Tools.redirectToPage(request, response, "views/authentication/index.jsp");
 
     }

@@ -72,7 +72,7 @@
                             <i class="fa fa-info-circle text-info"></i> Form
                         </span>
                         <!-- Close bouton -->
-                        <button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true" style="font-weight: bold;">
+                        <button type="button" class="close float-right font-weight-bold" data-dismiss="modal" aria-hidden="true">
                             <i class="fa fa-times"></i>
                         </button>
                     </p>
@@ -136,6 +136,72 @@
         </div>
 
     </div>
+    <div class="modal fade" id="modal_form_display" role="alert" data-backdrop="static" data-keyboard="false">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-body">
+
+                    <!-- Header -->
+                    <p class="font-weight-bold" style="font-size: 18px;">
+                        <!-- Title -->
+                        <span>
+                            <i class="fa fa-list"></i> Questions
+                        </span>
+                        <!-- Close bouton -->
+                        <button type="button" class="close float-right font-weight-bold" data-dismiss="modal" aria-hidden="true">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </p>
+
+                    <!-- Body -->
+                    <div class="row">
+                        
+                        <div class="col-12">
+                            <h5 class="font-weight-bold" id="title_obj"></h5>
+                            <hr>
+                        </div>
+
+                        <div class="col-12">
+                            
+                            <!-- Table des données -->
+                            <table id="table-donnee-display" class="table table-sm table-striped nowrap" style="width:100%">
+
+                                <thead class="app-table-head">
+                                    <tr>
+                                        <th width="50px;">N°</th>
+                                        <th>Code</th>
+                                        <th>Title</th>
+                                        <th>Marks</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody></tbody>
+
+                            </table>
+                            
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <!-- Bouton de fermiture du modal -->
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                        <i class="fa fa-remove"></i> Close
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 </c:if>
 
 <c:if test="${sessionScope.con.module_activate eq 'Question'}">
@@ -154,7 +220,7 @@
                             <i class="fa fa-info-circle text-info"></i> Form
                         </span>
                         <!-- Close bouton -->
-                        <button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true" style="font-weight: bold;">
+                        <button type="button" class="close float-right font-weight-bold" data-dismiss="modal" aria-hidden="true">
                             <i class="fa fa-times"></i>
                         </button>
                     </p>
@@ -230,6 +296,72 @@
         </div>
 
     </div>
+    <div class="modal fade" id="modal_form_display" role="alert" data-backdrop="static" data-keyboard="false">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-body">
+
+                    <!-- Header -->
+                    <p class="font-weight-bold" style="font-size: 18px;">
+                        <!-- Title -->
+                        <span>
+                            <i class="fa fa-list"></i> List of answers
+                        </span>
+                        <!-- Close bouton -->
+                        <button type="button" class="close float-right font-weight-bold" data-dismiss="modal" aria-hidden="true">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </p>
+
+                    <!-- Body -->
+                    <div class="row">
+                        
+                        <div class="col-12">
+                            <h5 class="font-weight-bold" id="title_obj"></h5>
+                            <hr>
+                        </div>
+
+                        <div class="col-12">
+                            
+                            <!-- Table des données -->
+                            <table id="table-donnee-display" class="table table-sm table-striped nowrap" style="width:100%">
+
+                                <thead class="app-table-head">
+                                    <tr>
+                                        <th width="50px;">N°</th>
+                                        <th>Code</th>
+                                        <th>Title</th>
+                                        <th>Is truth</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody></tbody>
+
+                            </table>
+                            
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <!-- Bouton de fermiture du modal -->
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                        <i class="fa fa-remove"></i> Close
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 </c:if>
 
 <c:if test="${sessionScope.con.module_activate eq 'Answer'}">
@@ -248,7 +380,7 @@
                             <i class="fa fa-info-circle text-info"></i> Form
                         </span>
                         <!-- Close bouton -->
-                        <button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true" style="font-weight: bold;">
+                        <button type="button" class="close float-right font-weight-bold" data-dismiss="modal" aria-hidden="true">
                             <i class="fa fa-times"></i>
                         </button>
                     </p>
@@ -346,7 +478,7 @@
                             <i class="fa fa-info-circle text-info"></i> Form
                         </span>
                         <!-- Close bouton -->
-                        <button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true" style="font-weight: bold;">
+                        <button type="button" class="close float-right font-weight-bold" data-dismiss="modal" aria-hidden="true">
                             <i class="fa fa-times"></i>
                         </button>
                     </p>
@@ -465,7 +597,7 @@
                             <i class="fa fa-info-circle text-info"></i> Form
                         </span>
                         <!-- Close bouton -->
-                        <button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true" style="font-weight: bold;">
+                        <button type="button" class="close float-right font-weight-bold" data-dismiss="modal" aria-hidden="true">
                             <i class="fa fa-times"></i>
                         </button>
                     </p>
@@ -587,7 +719,7 @@
                             <i class="fa fa-info-circle text-info"></i> Form
                         </span>
                         <!-- Close bouton -->
-                        <button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true" style="font-weight: bold;">
+                        <button type="button" class="close float-right font-weight-bold" data-dismiss="modal" aria-hidden="true">
                             <i class="fa fa-times"></i>
                         </button>
                     </p>

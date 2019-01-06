@@ -1,6 +1,7 @@
 package isib.war.controller;
 
 import isib.ejb.entity.Evaluation;
+import isib.war.bo.DataTableRow;
 import isib.war.bo.Notification;
 import isib.war.tools.Tools;
 import java.io.IOException;
@@ -55,7 +56,14 @@ public class EvaluationController extends BaseController {
             );
             
             if (obj != null){
-                this.notification = new Notification(obj);
+                this.notification = new Notification(
+                    new DataTableRow(
+                        ((Evaluation)obj).getId() + "",
+                        ((Evaluation)obj).getCode(),
+                        ((Evaluation)obj).getTitle(),
+                        ((Evaluation)obj).getDuration() + ""
+                    )
+                );
             } else {
                 throw new Exception("Data not found");
             }
