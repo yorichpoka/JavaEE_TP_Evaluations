@@ -31,5 +31,6 @@ public interface IStudent_AnswerServices {
     Student_Answer read(int id_student, int id_answer);
     Student_Answer readByAnswer(int id_answer);
     List<Student_Answer> readAll();
+    List<Student_Answer> readAllByStudent(int id_student);
     
 }

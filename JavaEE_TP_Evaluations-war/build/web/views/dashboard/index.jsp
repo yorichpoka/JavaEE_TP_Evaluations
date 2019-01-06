@@ -63,7 +63,8 @@
                             </div>
                         </div>
 
-                        <c:if test="${requestScope.answers != null}">
+                        <c:if test="${requestScope.student != null}">
+                            <!--
                             <div class="col-12">
 
                                 <div class="card bg-white mt-3">
@@ -81,6 +82,97 @@
                                 </div>
                                 
                             </div>
+                            -->
+                            
+                            <div class="col-12 pt-3">
+
+                                <div class="card">
+
+                                    <div class="card-body">
+
+                                        <div class="row pb-5 px-5 pt-3">
+                                            <div class="col-md-6">
+                                                <p class="font-weight-bold mb-4 h4">Student Information</p>
+                                                <p class="mb-1 h5">
+                                                    <b>Matricule</b>: ${requestScope.student.matricule}
+                                                </p>
+                                                <p class="mb-1 h5">
+                                                    <b>Name</b>: ${requestScope.student.firstname} ${requestScope.student.lastname}
+                                                </p>
+                                                <p class="mb-1 h5">
+                                                    <b>Age</b>: ${sessionScope.con.getAge(requestScope.student.birthday)} years old
+                                                </p>
+                                            </div>
+
+                                            <div class="col-md-6 text-right">
+                                                <p class="font-weight-bold mb-4 h4">Address details</p>
+                                                <p class="mb-1 h5">
+                                                    <b>Address</b>: ${requestScope.student.address}
+                                                </p>
+                                                <p class="mb-1 h5">
+                                                    <b>Phone</b>: ${requestScope.student.mobile_phone}
+                                                </p>
+                                                <p class="mb-1 h5">
+                                                    <b>Email</b>: ${requestScope.student.email}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row px-5 pb-5">
+                                            <div class="col-md-12">
+                                                <c:set var="lazyObject" value="${sessionScope.con.getLazyObjectEvaluation(requestScope.student_answers)}" />
+                                                <c:forEach items="${lazyObject.prop_0}" var="evaluation" varStatus="listEvaluation">
+                                                    <table class="table table-sm">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="border-0 text-uppercase small font-weight-bold" colspan="6">
+                                                                    N°${listEvaluation.count}: ${evaluation.title}
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:forEach items="${evaluation.questions}" var="question" varStatus="listQuestion">
+                                                                <c:if test="${sessionScope.con.isAswered(question.id, requestScope.student_answers)}">
+                                                                    <c:set var="truthAnswer" value="${sessionScope.con.getAswered(question.answers, requestScope.student_answers)}" />
+                                                                    <tr>
+                                                                        <td style="width: 25px;">-</td>
+                                                                        <td>Question N°${listQuestion.count}: </td>
+                                                                        <td>${question.title} ?</td>
+                                                                        <td style="width: 100px;" class="font-weight-bold text-center">${truthAnswer.title}</td>
+                                                                        <td style="width: 100px;" class="text-center">[${question.marks}]</td>
+                                                                        <td style="width: 100px;" class="text-center">${truthAnswer.truth   ? "<i class=\"fa fa-check text-success\"></i>" 
+                                                                                                                                            : "<i class=\"fa fa-remove text-danger\"></i>"}</td>
+                                                                    </tr>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </tbody>
+                                                    </table>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row-reverse bg-light text-dark p-4">
+                                            <div class="py-3 px-5 text-right">
+                                                <div class="mb-2">Max marks</div>
+                                                <div class="h2 font-weight-light text-info">${lazyObject.prop_3}</div>
+                                            </div>
+
+                                            <div class="py-3 px-5 text-right">
+                                                <div class="mb-2">You marks</div>
+                                                <div class="h2 font-weight-bold">${lazyObject.prop_2}</div>
+                                            </div>
+
+                                            <div class="py-3 px-5 text-right">
+                                                <div class="mb-2">Status</div>
+                                                <div class="h2 font-weight-light">${lazyObject.prop_1}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            
                         </c:if>
 
                     </div>

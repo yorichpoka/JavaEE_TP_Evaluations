@@ -12,7 +12,17 @@ import isib.ejb.bo.TeacherBO;
 import isib.ejb.bo.UserBO;
 import isib.ejb.bo.PersonBO;
 import isib.ejb.bo.StudentBO;
+import isib.ejb.entity.Answer;
+import isib.ejb.entity.Evaluation;
+import isib.ejb.entity.Question;
+import isib.ejb.entity.Student_Answer;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -119,5 +129,73 @@ public class Connexion {
         
         return
             this.person != null && this.person.getId() != 0;
+    }
+    
+    public int getAge(Date birthday){
+        
+        return 
+            Period.between(
+                birthday.toInstant().atZone(
+                    ZoneId.systemDefault()
+                ).toLocalDate(), 
+                LocalDate.now()
+            ).getYears();
+            
+    }
+    
+    public LazyObject getLazyObjectEvaluation(List<Student_Answer> student_answers){
+        
+        Set<Evaluation> evaluations = new HashSet<>();
+        int maxMarks = 0;
+        int hisMarks = 0;
+        
+        for(Student_Answer val : student_answers) {
+            if (val.getAnswer().isTruth()) {
+                System.out.println("Answer: " + val.getAnswer().getTitle() + ", Question : " + val.getAnswer().getQuestion().getTitle() + ", marks: " + val.getAnswer().getQuestion().getMarks());
+                hisMarks += val.getAnswer().getQuestion().getMarks();
+            }
+            maxMarks += val.getAnswer().getQuestion().getMarks();
+            evaluations.add(val.getAnswer().getQuestion().getEvaluation());
+        }
+        
+        return 
+            new LazyObject(
+                evaluations, 
+                (maxMarks / 2 <= hisMarks)  ? "<i class=\"fa fa-check-circle fa-2x  text-success\"></i>" 
+                                            : "<i class=\"fa fa-remove fa-2x  text-danger\"></i>", 
+                hisMarks, 
+                maxMarks
+            );
+            
+    }
+    
+    public boolean isAswered(int id_question, List<Student_Answer> student_answers){
+        
+        boolean exist = false;
+        
+        for(Student_Answer val : student_answers) {
+            if (val.getAnswer().getQuestion().getId() == id_question){
+                exist = true;
+                break;
+            }
+        }
+        System.out.println("id_question: " + id_question + ", exist: " + exist);
+        
+        return exist;
+            
+    }
+    
+    public Answer getAswered(Set<Answer> answers, List<Student_Answer> student_answers){
+                
+        for(Answer answer : answers) {
+            for(Student_Answer val : student_answers) {
+                if (val.getAnswer().getId() == answer.getId()){
+                    return answer;
+                }
+            }
+        }
+        
+        return null;
+            
     }
 }

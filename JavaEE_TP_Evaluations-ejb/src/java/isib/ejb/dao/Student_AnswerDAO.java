@@ -264,6 +264,30 @@ public class Student_AnswerDAO implements IDAO<Student_Answer> {
        return results;
     }
 
+    public List<Student_Answer> readAllByStudent(int id_student) {
+       List<Student_Answer> results = null;
+       
+       try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            
+            transaction = session.beginTransaction();
+            
+            results = session.createQuery("from " + tableName + " where id_student = " + id_student).list();
+            
+            transaction.commit();
+        } 
+        catch(Exception ex) 
+        {
+            transaction.rollback();
+            log4j.error(ex);
+        }
+        finally {
+            session.close();
+        }
+            
+       return results;
+    }
+
     @Override
     public Student_Answer createWithRelation(Student_Answer obj) {
         try {

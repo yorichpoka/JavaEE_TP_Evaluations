@@ -5,13 +5,14 @@
  */
 package isib.war.tools;
 
-import com.google.gson.Gson;
 import isib.ejb.entity.Student;
 import isib.ejb.entity.Teacher;
 import isib.war.bo.Connexion;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -121,5 +122,17 @@ public final class Tools {
                 length + " " + nameObjet +
             "</button>";
         
+    }
+    
+    public static int getAge(Date birthday){
+        
+        return 
+            Period.between(
+                birthday.toInstant().atZone(
+                    ZoneId.systemDefault()
+                ).toLocalDate(), 
+                LocalDate.now()
+            ).getYears();
+            
     }
 }

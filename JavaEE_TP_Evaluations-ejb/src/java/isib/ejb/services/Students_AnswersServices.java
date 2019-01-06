@@ -66,6 +66,11 @@ public class Students_AnswersServices implements IStudent_AnswerServices {
     }
 
     @Override
+    public List<Student_Answer> readAllByStudent(int id_student) {
+        return dao().readAllByStudent(id_student);
+    }
+
+    @Override
     public boolean create(Student_Answer[] obj) {
         return dao().create(obj);
     }
